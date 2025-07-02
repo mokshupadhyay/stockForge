@@ -1,0 +1,1 @@
+export { StockDetailScreen } from './StockDetailScreen';
