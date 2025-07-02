@@ -1,0 +1,1 @@
+export { LastUpdatedFooter } from './LastUpdatedFooter';
