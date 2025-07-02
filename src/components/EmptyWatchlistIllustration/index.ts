@@ -1,0 +1,1 @@
+export { EmptyWatchlistIllustration } from './EmptyWatchlistIllustration';
