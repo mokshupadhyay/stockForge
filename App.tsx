@@ -1,28 +1,38 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
+ * StockForge - Premium Stock Trading Mobile App
+ * 
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/store/store';
+import { AppNavigator } from './src/navigation/AppNavigator';
+import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const AppContent: React.FC = () => {
+  const { theme, isDark } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <>
+      <StatusBar
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.background}
+      />
+      <AppNavigator />
+    </>
+  );
+};
+
+function App(): React.JSX.Element {
+  return (
+    <Provider store={store}>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
