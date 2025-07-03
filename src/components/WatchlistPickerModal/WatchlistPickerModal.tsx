@@ -5,9 +5,6 @@ import {
     Modal,
     TouchableOpacity,
     FlatList,
-    TextInput,
-    Platform,
-    KeyboardAvoidingView,
     SafeAreaView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +12,7 @@ import { Stock } from '../../types/stock';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useWatchlistPickerModalController } from './WatchlistPickerModal.controller';
 import { styles } from './WatchlistPickerModal.styles';
+import { WatchlistCreateModal } from '../WatchlistCreateModal';
 
 interface WatchlistPickerModalProps {
     visible: boolean;
@@ -84,85 +82,7 @@ export const WatchlistPickerModal: React.FC<WatchlistPickerModalProps> = ({
         );
     };
 
-    const renderCreateModal = () => {
-        if (!showCreateModal) return null;
 
-        return (
-            <Modal
-                visible={showCreateModal}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={handleCancelCreate}
-            >
-                <TouchableOpacity
-                    style={styles.createModalOverlay}
-                    activeOpacity={1}
-                    onPress={handleCancelCreate}
-                >
-                    <KeyboardAvoidingView
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    >
-                        <TouchableOpacity
-                            activeOpacity={1}
-                            onPress={(e) => e.stopPropagation()}
-                        >
-                            <View style={[styles.createModalContent, { backgroundColor: theme.background }]}>
-                                <Text style={[styles.createModalTitle, { color: theme.text.primary }]}>Create New Watchlist</Text>
-
-                                <TextInput
-                                    key="watchlist-name-input"
-                                    ref={inputRef}
-                                    style={[
-                                        styles.createModalInput,
-                                        {
-                                            backgroundColor: theme.surface,
-                                            borderColor: theme.border,
-                                            color: theme.text.primary
-                                        },
-                                        nameError && styles.createModalInputError
-                                    ]}
-                                    placeholder="Enter watchlist name"
-                                    placeholderTextColor={theme.text.tertiary}
-                                    value={newWatchlistName}
-                                    onChangeText={handleTextChange}
-                                    autoFocus={false}
-                                    returnKeyType="done"
-                                    onSubmitEditing={handleConfirmCreate}
-                                    selectTextOnFocus={true}
-                                />
-
-                                {nameError ? (
-                                    <Text style={[styles.createModalError, { color: theme.error }]}>{nameError}</Text>
-                                ) : null}
-
-                                <View style={styles.createModalButtons}>
-                                    <TouchableOpacity
-                                        style={[styles.createModalButton, styles.cancelButton, { backgroundColor: theme.surface }]}
-                                        onPress={handleCancelCreate}
-                                    >
-                                        <Text style={[styles.cancelButtonText, { color: theme.text.secondary }]}>Cancel</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        style={[styles.createModalButton, styles.confirmButton, { backgroundColor: theme.accent }]}
-                                        onPress={handleConfirmCreate}
-                                        disabled={!newWatchlistName.trim()}
-                                    >
-                                        <Text style={[
-                                            styles.confirmButtonText,
-                                            { color: theme.background },
-                                            !newWatchlistName.trim() && { opacity: 0.5 }
-                                        ]}>Create</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    </KeyboardAvoidingView>
-                </TouchableOpacity>
-            </Modal>
-        );
-    };
 
     return (
         <>
@@ -231,7 +151,16 @@ export const WatchlistPickerModal: React.FC<WatchlistPickerModalProps> = ({
                     )}
                 </SafeAreaView>
             </Modal>
-            {renderCreateModal()}
+            <WatchlistCreateModal
+                visible={showCreateModal}
+                onClose={handleCancelCreate}
+                onConfirm={handleConfirmCreate}
+                value={newWatchlistName}
+                onChangeText={handleTextChange}
+                error={nameError}
+                inputRef={inputRef}
+                theme={theme}
+            />
         </>
     );
 }; 

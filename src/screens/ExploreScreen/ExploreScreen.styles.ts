@@ -111,6 +111,7 @@ export const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    marginTop: spacing.lg,
   },
   section: {
     paddingHorizontal: spacing.lg,

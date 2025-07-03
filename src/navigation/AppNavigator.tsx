@@ -46,7 +46,7 @@ const TabNavigator = () => {
                     backgroundColor: theme.background,
                     borderTopColor: theme.border,
                     borderTopWidth: 1,
-                    paddingTop: 8,
+                    paddingTop: 15,
                     paddingBottom: bottomPadding,
                     paddingHorizontal: spacing.lg,
                     height: 65 + bottomPadding, // Reduced height
